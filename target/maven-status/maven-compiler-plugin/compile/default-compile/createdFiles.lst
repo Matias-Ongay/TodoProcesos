@@ -1,0 +1,5 @@
+com\mycompany\todoprocesos\Models\TaskManager.class
+com\mycompany\todoprocesos\Models\Task.class
+com\mycompany\todoprocesos\TodoProcesos.class
+SQL\ConnectionSQLite.class
+com\mycompany\todoprocesos\Models\File.class
