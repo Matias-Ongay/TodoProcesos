@@ -7,6 +7,9 @@ package com.mycompany.todoprocesos;
 import Controler.TaskController;
 import Controler.TaskManager;
 import com.mycompany.todoprocesos.Models.Task;
+
+import static SQL.ConnectionSQLite.deleteDatabaseData;
+
 import java.util.Scanner;
 
 /**
@@ -56,6 +59,7 @@ public class MainMenu {
                         System.out.println("Saliendo del programa...");
                         break;
                     case 6:
+                        deleteDatabaseData();
                         System.out.println("DELETE");
                         break;
                     default:

@@ -9,6 +9,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.xml.catalog.Catalog;
+
 public class ConnectionSQLite {
     private static final String URL = "jdbc:sqlite:miBaseDeDatos.db"; // Ruta a tu base de datos
 
@@ -44,6 +46,17 @@ public class ConnectionSQLite {
             System.out.println("Tabla 'task' verificada o creada con éxito.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public static void deleteDatabaseData(){
+        String sql= "DELETE FROM task";
+        try (Connection conn = conectar();
+             Statement stmt = conn.createStatement()) {
+                stmt.execute(sql);
+                System.out.println("DELETE OF DATABASE DATA");
+        }catch(SQLException e){
+            System.out.println("ERROR"+ e.getMessage());
         }
     }
 }
