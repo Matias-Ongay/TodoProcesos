@@ -24,7 +24,7 @@ public class TodoProcesos {
         TaskController taskController = new TaskController();
         TaskManager taskManager = new TaskManager();
         createTableTask();
-        Task task = new Task("1","b","c","f","f","g");
+        Task task = new Task();
 
         MainMenu menu = new MainMenu(taskController, taskManager, scanner,task);
         menu.displayMenu();

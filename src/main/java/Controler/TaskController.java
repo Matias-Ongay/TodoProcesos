@@ -32,7 +32,7 @@ public class TaskController {
                 statement.setString(2, endDate);
                 statement.setString(3, priority);
                 statement.setString(4, userId);
-                statement.setString(5, status); // Agrega el estado de la tarea
+                statement.setString(5, status); 
 
                 // Ejecuta la sentencia SQL de inserción
                 statement.executeUpdate();
@@ -100,6 +100,7 @@ public class TaskController {
                    
                     Task task = new Task(id, description, endDate, priority, userId, status);
                     tasks.add(task);
+                    System.out.println(task+"\n");
                 }
             }
         } catch (SQLException e) {
