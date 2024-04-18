@@ -7,11 +7,14 @@ package com.mycompany.todoprocesos;
 import Controler.TaskController;
 import Controler.TaskManager;
 import com.mycompany.todoprocesos.Models.Task;
+
+import static SQL.ConnectionSQLite.deleteDatabaseData;
+
 import java.util.Scanner;
 
 /**
  *
- * @author matia
+ * @author adri zaanja rota
  */
 public class MainMenu {
     private TaskController taskController;
@@ -41,12 +44,10 @@ public class MainMenu {
                 scanner.nextLine(); // Limpiar el buffer de entrada
                 switch (choice) {
                     case 1:
-                        System.out.println(taskController.getAllTasks());
-                        
+                        taskController.getAllTasks();
                         break;
                     case 2:
-                        taskController.saveToDatabase("1", "2 de abril", "1", "2", "");
-                        taskManager.addTask(task, taskController);
+                        taskManager.addTask(taskController);
                         break;
                     case 3:
                         taskManager.moveTaskToInProgress(taskController);
@@ -56,6 +57,10 @@ public class MainMenu {
                         break;
                     case 5:
                         System.out.println("Saliendo del programa...");
+                        break;
+                    case 6:
+                        deleteDatabaseData();
+                        System.out.println("DELETE");
                         break;
                     default:
                         System.out.println("Opción no válida. Por favor, ingrese un número del 1 al 5.");

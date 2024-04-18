@@ -15,13 +15,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TaskManager {
+
     private List<Task> tasksPending;
     private List<Task> tasksInProgress;
     private List<Task> tasksCompleted;
     private Scanner scanner;
 
     public TaskManager() {
-        tasksPending = new ArrayList<>();
+        tasksPending = new ArrayList<Task>();
         tasksInProgress = new ArrayList<>();
         tasksCompleted = new ArrayList<>();
         scanner = new Scanner(System.in);
@@ -43,23 +44,23 @@ public class TaskManager {
         System.out.print("Ingrese el estado de la tarea (pending/in progress/completed): ");
         String status = scanner.nextLine();
 
-        // Guardar la tarea en la base de datos
         taskController.saveToDatabase(description, endDate, priority, userId, status);
     }
 
     public void moveTaskToInProgress(TaskController taskController) {
         System.out.println("=== Tareas Pendientes ===");
+        tasksPending=taskController.getAllTasks();
         listTasks(tasksPending);
-
+        System.out.println(tasksPending);
         System.out.print("Ingrese el ID de la tarea que desea mover a 'En Proceso': ");
         String taskId = scanner.nextLine();
 
         Task task = findTask(taskId, tasksPending);
         if (task != null) {
             tasksPending.remove(task);
-            task.setStatus("in progress");
+            task.setStatus("In progress");
             tasksInProgress.add(task);
-            taskController.updateInDatabase(taskId, taskId, taskId, taskId, taskId, taskId);
+            taskController.updateInDatabase(taskId, task.getDescription(), task.getEndDate(), task.getPriority(), task.getUserId(), task.getStatus());
             System.out.println("Tarea movida a 'En Proceso' exitosamente.");
         } else {
             System.out.println("No se encontró ninguna tarea con ese ID en 'Pendientes'.");
@@ -166,7 +167,5 @@ public class TaskManager {
         return tasksCompleted;
     }
 
-    public void addTask(Task task, TaskController taskController) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+
 }
