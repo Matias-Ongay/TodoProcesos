@@ -37,7 +37,7 @@ public class TaskController {
                 // Ejecuta la sentencia SQL de inserción
                 statement.executeUpdate();
 
-                System.out.println("Tarea guardada en la base de datos.");
+                System.out.println("Tarea guardada en la base de dtos.");
             }
         } catch (SQLException e) {
             System.out.println("Error al guardar la tarea en la base de datos: " + e.getMessage());
