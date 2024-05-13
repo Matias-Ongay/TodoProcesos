@@ -5,11 +5,13 @@
 
 package com.mycompany.todoprocesos;
 
+import static SQL.ConnectionSQLite.createTableTask;
+
+import com.mycompany.todoprocesos.Models.Task;
+
 import Controler.TaskController;
 import Controler.TaskManager;
 
-import static SQL.ConnectionSQLite.createTableTask;
-import com.mycompany.todoprocesos.Models.Task;
 import java.util.Scanner;
 
 

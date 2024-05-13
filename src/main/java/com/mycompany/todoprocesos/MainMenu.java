@@ -6,9 +6,11 @@ package com.mycompany.todoprocesos;
 
 import Controler.TaskController;
 import Controler.TaskManager;
+import SQL.DataDeleter;
+import SQL.DatabaseConnector;
+
 import com.mycompany.todoprocesos.Models.Task;
 
-import static SQL.ConnectionSQLite.deleteDatabaseData;
 
 import java.util.Scanner;
 
@@ -17,20 +19,21 @@ import java.util.Scanner;
  * @author adri zaanja rota
  */
 public class MainMenu {
+    private DatabaseConnector databaseConnector;
+    private DataDeleter dataDeleter;
     private TaskController taskController;
     private TaskManager taskManager;
     private Scanner scanner;
-    private Task task;
     public MainMenu(TaskController taskController, TaskManager taskManager, Scanner scanner ,Task task) {
         this.taskController = taskController;
         this.taskManager = taskManager;
         this.scanner = scanner;
-        this.task = task;
     }
 
     public void displayMenu() {
         int choice = 0;
         do {
+            databaseConnector.conectar();
             System.out.println("\n=== Menú de Tareas ===");
             System.out.println("1. Ver lista de tareas completas");
             System.out.println("2. Agregar una tarea a pendiente");
@@ -59,7 +62,7 @@ public class MainMenu {
                         System.out.println("Saliendo del programa...");
                         break;
                     case 6:
-                        deleteDatabaseData();
+                        dataDeleter.deleteDatabaseData() ;
                         System.out.println("DELETE");
                         break;
                     default:
@@ -67,7 +70,7 @@ public class MainMenu {
                 }
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
-                scanner.nextLine(); // Limpiar el buffer de entrada en caso de error
+                scanner.nextLine();
             }
         } while (choice != 5);
     }
