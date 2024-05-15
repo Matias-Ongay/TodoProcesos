@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Controler;
+package Controller;
 
 import SQL.ConnectionSQLite;
 import com.mycompany.todoprocesos.Models.Task;
@@ -20,12 +20,9 @@ import java.util.List;
 public class TaskController {
     
     public void saveToDatabase(String description, String endDate, String priority, String userId, String status) {
-        // Llama al método estático createTableTask() de la clase ConnectionSQLite para crear la tabla si no existe
-        ConnectionSQLite.createTableTask();
-
-        // Crea la conexión con la base de datos
-        try (Connection connection = ConnectionSQLite.conectar()) {
-            // Prepara la sentencia SQL de inserción
+        ConnectionSQLite connectionSQLite = new ConnectionSQLite();
+        
+        try (Connection connection = connectionSQLite.conectar()) {
             String sql = "INSERT INTO task (description, endDate, priority, userId, status) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, description);
@@ -45,7 +42,9 @@ public class TaskController {
     }
 
     public void updateInDatabase(String id, String description, String endDate, String priority, String userId, String status) {
-        try (Connection connection = ConnectionSQLite.conectar()) {
+        ConnectionSQLite connectionSQLite = new ConnectionSQLite();
+
+        try (Connection connection = connectionSQLite.conectar()) {
             String sql = "UPDATE task SET description = ?, endDate = ?, priority = ?, userId = ?, status = ? WHERE id = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, description);
@@ -65,7 +64,10 @@ public class TaskController {
     }
 
     public void deleteFromDatabase(String id) {
-        try (Connection connection = ConnectionSQLite.conectar()) {
+        ConnectionSQLite connectionSQLite = new ConnectionSQLite();
+
+        try (Connection connection = connectionSQLite.conectar()) {
+            
             String sql = "DELETE FROM task WHERE id = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setString(1, id);
@@ -84,7 +86,9 @@ public class TaskController {
     }
      public List<Task> getAllTasks() {
         List<Task> tasks = new ArrayList<>();
-        try (Connection connection = ConnectionSQLite.conectar()) {
+        ConnectionSQLite connectionSQLite = new ConnectionSQLite();
+
+        try (Connection connection = connectionSQLite.conectar()) {
            
             String sql = "SELECT * FROM task";
             try (PreparedStatement statement = connection.prepareStatement(sql);

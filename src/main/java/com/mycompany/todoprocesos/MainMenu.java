@@ -4,8 +4,8 @@
  */
 package com.mycompany.todoprocesos;
 
-import Controler.TaskController;
-import Controler.TaskManager;
+import Controller.TaskController;
+import Controller.TaskManager;
 import SQL.DataDeleter;
 import SQL.DatabaseConnector;
 

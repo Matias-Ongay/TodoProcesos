@@ -5,12 +5,13 @@
 
 package com.mycompany.todoprocesos;
 
-import static SQL.ConnectionSQLite.createTableTask;
 
 import com.mycompany.todoprocesos.Models.Task;
 
-import Controler.TaskController;
-import Controler.TaskManager;
+import Controller.TaskController;
+import Controller.TaskManager;
+import SQL.ConnectionSQLite;
+import SQL.CreateTableSQLite;
 
 import java.util.Scanner;
 
@@ -22,10 +23,11 @@ import java.util.Scanner;
 public class TodoProcesos {
 
     public static void main(String[] args) {
+        CreateTableSQLite createTableSQLite = new CreateTableSQLite();
         Scanner scanner = new Scanner(System.in);
         TaskController taskController = new TaskController();
         TaskManager taskManager = new TaskManager();
-        createTableTask();
+        createTableSQLite.createTableTask();
         Task task = new Task();
 
         MainMenu menu = new MainMenu(taskController, taskManager, scanner,task);
