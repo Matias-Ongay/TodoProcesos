@@ -10,7 +10,6 @@ import com.mycompany.todoprocesos.Models.Task;
 
 import Controller.TaskController;
 import Controller.TaskManager;
-import SQL.ConnectionSQLite;
 import SQL.CreateTableSQLite;
 
 import java.util.Scanner;
