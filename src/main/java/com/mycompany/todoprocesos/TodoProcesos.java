@@ -10,7 +10,9 @@ import com.mycompany.todoprocesos.Models.Task;
 
 import Controller.TaskController;
 import Controller.TaskManager;
+import SQL.ConnectionSQLite;
 import SQL.CreateTableSQLite;
+import SQL.DeleteSQLite;
 
 import java.util.Scanner;
 
@@ -23,13 +25,15 @@ public class TodoProcesos {
 
     public static void main(String[] args) {
         CreateTableSQLite createTableSQLite = new CreateTableSQLite();
+        ConnectionSQLite databaseConnector = new ConnectionSQLite();
+        DeleteSQLite dataDeleter = new DeleteSQLite();
+        createTableSQLite.createTableTask();
         Scanner scanner = new Scanner(System.in);
         TaskController taskController = new TaskController();
         TaskManager taskManager = new TaskManager();
-        createTableSQLite.createTableTask();
         Task task = new Task();
 
-        MainMenu menu = new MainMenu(taskController, taskManager, scanner,task);
+        MainMenu menu = new MainMenu(taskController, taskManager, scanner,task,databaseConnector,dataDeleter);
         menu.displayMenu();
     }
 }

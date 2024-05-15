@@ -9,9 +9,11 @@ import SQL.ConnectionSQLite;
 public class SaveToDatabase implements SavingDatabase{
         private ConnectionSQLite connectionSQLite;
         
-        public void saveToDatabase(String description, String endDate, String priority, String userId, String status) {
-   
+        public SaveToDatabase(){
+            this.connectionSQLite = new ConnectionSQLite();
+        }
 
+        public void saveToDatabase(String description, String endDate, String priority, String userId, String status) {
         try (Connection connection = connectionSQLite.conectar()) {
             String sql = "INSERT INTO task (description, endDate, priority, userId, status) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {

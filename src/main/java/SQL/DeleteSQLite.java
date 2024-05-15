@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DeleteSQLite {
+public class DeleteSQLite implements DataDeleter{
     private ConnectionSQLite connectionSQLite;
     public void deleteDatabaseData(){
         String sql= "DELETE FROM task";

@@ -11,14 +11,13 @@ import java.sql.SQLException;
 
 public class ConnectionSQLite implements DatabaseConnector{
     private static final String URL = "jdbc:sqlite:miBaseDeDatos.db"; // Ruta a tu base de datos
-
+    
     public Connection conectar() {
         Connection conn = null;
         try {
             Class.forName("org.sqlite.JDBC");
             // Establece la conexión con la base de datos
             conn = DriverManager.getConnection(URL);
-            System.out.println("Conexión establecida.");
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }

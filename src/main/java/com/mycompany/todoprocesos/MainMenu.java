@@ -4,6 +4,7 @@
  */
 package com.mycompany.todoprocesos;
 
+import Controller.GetFromDatabase;
 import Controller.TaskController;
 import Controller.TaskManager;
 import SQL.DataDeleter;
@@ -24,13 +25,16 @@ public class MainMenu {
     private TaskController taskController;
     private TaskManager taskManager;
     private Scanner scanner;
-    public MainMenu(TaskController taskController, TaskManager taskManager, Scanner scanner ,Task task) {
+    public MainMenu(TaskController taskController, TaskManager taskManager, Scanner scanner ,Task task,DatabaseConnector databaseConnector,DataDeleter dataDeleter) {
         this.taskController = taskController;
         this.taskManager = taskManager;
         this.scanner = scanner;
+        this.databaseConnector = databaseConnector;
+        this.dataDeleter = dataDeleter;
     }
 
     public void displayMenu() {
+        GetFromDatabase getFromDatabase = new GetFromDatabase();
         int choice = 0;
         do {
             databaseConnector.conectar();
@@ -47,7 +51,7 @@ public class MainMenu {
                 scanner.nextLine(); // Limpiar el buffer de entrada
                 switch (choice) {
                     case 1:
-                        taskController.getAllTasks();
+                        getFromDatabase.getAllTasks();
                         break;
                     case 2:
                         taskManager.addTask(taskController);

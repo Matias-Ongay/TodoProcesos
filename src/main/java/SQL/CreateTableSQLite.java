@@ -6,10 +6,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class CreateTableSQLite {
+public class CreateTableSQLite implements TableCreator{
     private ConnectionSQLite connectionSQLite;
 
+    public CreateTableSQLite() {
+        this.connectionSQLite = new ConnectionSQLite();
+    }
+
       public void createTableTask() {
+        System.out.println("Creando tabla 'task' en la base de datos SQLite...");
         // Script SQL para crear la tabla 'task' si no existe y agregar la columna 'status'
         String sql = "CREATE TABLE IF NOT EXISTS task (\n"
                 + "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
@@ -17,16 +22,13 @@ public class CreateTableSQLite {
                 + "    endDate TEXT NOT NULL,\n"
                 + "    priority TEXT NOT NULL,\n"
                 + "    userId TEXT NOT NULL,\n"
-                + "    status TEXT NOT NULL\n" // Agrega la columna 'status'
+                + "    status TEXT NOT NULL\n"
                 + ");";
-
         try (Connection conn = connectionSQLite.conectar();
-             Statement stmt = conn.createStatement()) {
-            // Crea la tabla si no existe y agrega la columna 'status'
+        Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-            System.out.println("Tabla 'task' verificada o creada con éxito.");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }
