@@ -45,10 +45,9 @@ public class MainMenu {
             System.out.println("4. Eliminar una tarea");
             System.out.println("5. Salir");
             System.out.print("Ingrese su opción: ");
-            
             try {
                 choice = scanner.nextInt();
-                scanner.nextLine(); // Limpiar el buffer de entrada
+                scanner.nextLine();
                 switch (choice) {
                     case 1:
                         getFromDatabase.getAllTasks();

@@ -10,10 +10,8 @@ package Controller;
  * @author matia
  */
 public class TaskController {
-
      public String toString(String id, String description, String endDate, String priority, String userId, String status) {
         return "ID: " + id + ", Descripción: " + description + ", Fecha de finalización: " + endDate +
                ", Prioridad: " + priority + ", Usuario: " + userId + ", Estado: " + status;
     }
-    
 }

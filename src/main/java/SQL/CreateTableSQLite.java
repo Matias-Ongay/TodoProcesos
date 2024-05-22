@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class CreateTableSQLite implements TableCreator{
     private ConnectionSQLite connectionSQLite;
 
-    public CreateTableSQLite() {
+    public  CreateTableSQLite() {
         this.connectionSQLite = new ConnectionSQLite();
     }
 
@@ -27,6 +27,7 @@ public class CreateTableSQLite implements TableCreator{
         try (Connection conn = connectionSQLite.conectar();
         Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
+            System.out.println("Conectado a la base de datos SQLite...");
         } catch (SQLException e) {
             e.printStackTrace();
         }
