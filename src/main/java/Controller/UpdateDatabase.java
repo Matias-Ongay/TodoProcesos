@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import SQL.ConnectionSQLite;
 
-public class UpdateDatabase {
+public class UpdateDatabase implements UpdatingDatabase{
     public void updateInDatabase(String id, String description, String endDate, String priority, String userId, String status) {
         ConnectionSQLite connectionSQLite = new ConnectionSQLite();
 
