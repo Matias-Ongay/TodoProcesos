@@ -45,7 +45,7 @@ public class TaskManager {
         System.out.print("Ingrese el ID del usuario asignado a la tarea: ");
         String userId = scanner.nextLine();
 
-        System.out.print("Ingrese el estado de la tarea (pending/in progress/completed): ");
+        System.out.print("Ingrese el estado de la tarea (Pending/In progress/Completed): ");
         String status = scanner.nextLine();
 
         savingDatabase.saveToDatabase(description, endDate, priority, userId, status);
@@ -55,15 +55,13 @@ public class TaskManager {
         System.out.println("=== Tareas Pendientes ===");
         GetFromDatabase getFromDatabase = new GetFromDatabase();
         tasksPending=getFromDatabase.getAllTasks();
-        listTasks(tasksPending);
-        System.out.println(tasksPending);
-        System.out.print("Ingrese el ID de la tarea que desea mover a 'En Proceso': ");
+        System.out.print("Ingrese el ID de la tarea que desea mover a 'En proceso': ");
         String taskId = scanner.nextLine();
 
         Task task = findTask(taskId, tasksPending);
         if (task != null) {
             tasksPending.remove(task);
-            task.setStatus("In progress");
+            task.setStatus("in progress");
             tasksInProgress.add(task);
             updateDatabase.updateInDatabase(taskId, task.getDescription(), task.getEndDate(), task.getPriority(), task.getUserId(), task.getStatus());
             System.out.println("Tarea movida a 'En Proceso' exitosamente.");
@@ -72,41 +70,43 @@ public class TaskManager {
         }
     }
 
-    public void moveTaskToCompleted(TaskController taskController) {
-        System.out.println("=== Tareas en Proceso ===");
-        listTasks(tasksInProgress);
 
-        System.out.print("Ingrese el ID de la tarea que desea mover a 'Terminadas': ");
+    public void moveTaskToPending(TaskController taskController) {
+        System.out.println("=== Tareas Pendientes ===");
+        GetFromDatabase getFromDatabase = new GetFromDatabase();
+        tasksPending=getFromDatabase.getAllTasks();
+        System.out.print("Ingrese el ID de la tarea que desea mover a 'Pendiente': ");
         String taskId = scanner.nextLine();
 
-        Task task = findTask(taskId, tasksInProgress);
+        Task task = findTask(taskId, tasksPending);
         if (task != null) {
-            tasksInProgress.remove(task);
-            task.setStatus("completed");
-            tasksCompleted.add(task);
-            updateDatabase.updateInDatabase(taskId, taskId, taskId, taskId, taskId, taskId);
-            System.out.println("Tarea movida a 'Terminadas' exitosamente.");
+            tasksPending.remove(task);
+            task.setStatus("pending");
+            tasksInProgress.add(task);
+            updateDatabase.updateInDatabase(taskId, task.getDescription(), task.getEndDate(), task.getPriority(), task.getUserId(), task.getStatus());
+            System.out.println("Tarea movida a 'En Proceso' exitosamente.");
         } else {
-            System.out.println("No se encontró ninguna tarea con ese ID en 'En Proceso'.");
+            System.out.println("No se encontró ninguna tarea con ese ID en 'Pendientes'.");
         }
     }
 
-    public void moveTaskToPending(TaskController taskController) {
-        System.out.println("=== Tareas Terminadas ===");
-        listTasks(tasksCompleted);
 
-        System.out.print("Ingrese el ID de la tarea que desea mover a 'Pendientes': ");
+    public void moveTaskToCompleted(TaskController taskController) {
+        System.out.println("=== Tareas Pendientes ===");
+        GetFromDatabase getFromDatabase = new GetFromDatabase();
+        tasksPending=getFromDatabase.getAllTasks();
+        System.out.print("Ingrese el ID de la tarea que desea mover a 'Completado': ");
         String taskId = scanner.nextLine();
 
-        Task task = findTask(taskId, tasksCompleted);
+        Task task = findTask(taskId, tasksPending);
         if (task != null) {
-            tasksCompleted.remove(task);
-            task.setStatus("pending");
-            tasksPending.add(task);
-            updateDatabase.updateInDatabase(taskId, taskId, taskId, taskId, taskId, taskId);
-            System.out.println("Tarea movida a 'Pendientes' exitosamente.");
+            tasksPending.remove(task);
+            task.setStatus("completed");
+            tasksInProgress.add(task);
+            updateDatabase.updateInDatabase(taskId, task.getDescription(), task.getEndDate(), task.getPriority(), task.getUserId(), task.getStatus());
+            System.out.println("Tarea movida a 'En Proceso' exitosamente.");
         } else {
-            System.out.println("No se encontró ninguna tarea con ese ID en 'Terminadas'.");
+            System.out.println("No se encontró ninguna tarea con ese ID en 'Pendientes'.");
         }
     }
 

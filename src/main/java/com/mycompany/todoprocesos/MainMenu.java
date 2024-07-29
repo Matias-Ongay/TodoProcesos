@@ -39,11 +39,14 @@ public class MainMenu {
         do {
             databaseConnector.conectar();
             System.out.println("\n=== Menú de Tareas ===");
-            System.out.println("1. Ver lista de tareas completas");
+            System.out.println("1. Ver lista de tareas");
             System.out.println("2. Agregar una tarea a pendiente");
-            System.out.println("3. Modificar estado de la tarea");
-            System.out.println("4. Eliminar una tarea");
-            System.out.println("5. Salir");
+            System.out.println("3. Mover tarea a pendiente");
+            System.out.println("4. Mover tarea a in progress");
+            System.out.println("5. Mover tarea a completada");
+            System.out.println("6. Eliminar una tarea");
+            System.out.println("7. Salir");
+            System.out.println("8. Borrar datos de la base de datos");
             System.out.print("Ingrese su opción: ");
             try {
                 choice = scanner.nextInt();
@@ -56,15 +59,21 @@ public class MainMenu {
                         taskManager.addTask(taskController);
                         break;
                     case 3:
+                        taskManager.moveTaskToPending(taskController);
+                    break;
+                    case 4:
                         taskManager.moveTaskToInProgress(taskController);
                         break;
-                    case 4:
-                        taskManager.deleteTask(taskController);
-                        break;
                     case 5:
-                        System.out.println("Saliendo del programa...");
+                        taskManager.moveTaskToCompleted(taskController);
                         break;
                     case 6:
+                        taskManager.deleteTask(taskController);
+                        break;
+                    case 7:
+                        System.out.println("Saliendo del programa...");
+                        break;
+                    case 8:
                         dataDeleter.deleteDatabaseData() ;
                         System.out.println("DELETE");
                         break;
@@ -75,7 +84,7 @@ public class MainMenu {
                 System.out.println("Error: " + e.getMessage());
                 scanner.nextLine();
             }
-        } while (choice != 5);
+        } while (choice != 9);
     }
 
    
