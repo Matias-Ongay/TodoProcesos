@@ -40,13 +40,13 @@ public class MainMenu {
             databaseConnector.conectar();
             System.out.println("\n=== Menú de Tareas ===");
             System.out.println("1. Ver lista de tareas");
-            System.out.println("2. Agregar una tarea a pendiente");
+            System.out.println("2. Agregar una tarea");
             System.out.println("3. Mover tarea a pendiente");
             System.out.println("4. Mover tarea a in progress");
             System.out.println("5. Mover tarea a completada");
             System.out.println("6. Eliminar una tarea");
-            System.out.println("7. Salir");
-            System.out.println("8. Borrar datos de la base de datos");
+            System.out.println("7. Borrar datos de la base de datos");
+            System.out.println("8. Salir");
             System.out.print("Ingrese su opción: ");
             try {
                 choice = scanner.nextInt();
@@ -71,20 +71,20 @@ public class MainMenu {
                         taskManager.deleteTask(taskController);
                         break;
                     case 7:
-                        System.out.println("Saliendo del programa...");
-                        break;
-                    case 8:
                         dataDeleter.deleteDatabaseData() ;
                         System.out.println("DELETE");
+                    break;
+                    case 8:
+                        System.out.println("Saliendo del programa...");
                         break;
                     default:
-                        System.out.println("Opción no válida. Por favor, ingrese un número del 1 al 5.");
+                        System.out.println("Opción no válida. Por favor, ingrese un número del 1 al 8.");
                 }
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
                 scanner.nextLine();
             }
-        } while (choice != 9);
+        } while (choice != 8);
     }
 
    

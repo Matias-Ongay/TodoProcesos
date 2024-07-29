@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TaskManager {
-
+    private List<Task> allTasks;
     private List<Task> tasksPending;
     private List<Task> tasksInProgress;
     private List<Task> tasksCompleted;
@@ -24,6 +24,7 @@ public class TaskManager {
     private UpdateDatabase updateDatabase;
 
     public TaskManager() {
+        allTasks=new ArrayList<>();
         tasksPending = new ArrayList<Task>();
         tasksInProgress = new ArrayList<>();
         tasksCompleted = new ArrayList<>();
@@ -45,7 +46,7 @@ public class TaskManager {
         System.out.print("Ingrese el ID del usuario asignado a la tarea: ");
         String userId = scanner.nextLine();
 
-        System.out.print("Ingrese el estado de la tarea (Pending/In progress/Completed): ");
+        System.out.print("Ingrese el estado de la tarea (pending/in progress/Completed): ");
         String status = scanner.nextLine();
 
         savingDatabase.saveToDatabase(description, endDate, priority, userId, status);
@@ -54,13 +55,13 @@ public class TaskManager {
     public void moveTaskToInProgress(TaskController taskController) {
         System.out.println("=== Tareas Pendientes ===");
         GetFromDatabase getFromDatabase = new GetFromDatabase();
-        tasksPending=getFromDatabase.getAllTasks();
+        allTasks=getFromDatabase.getAllTasks();
         System.out.print("Ingrese el ID de la tarea que desea mover a 'En proceso': ");
         String taskId = scanner.nextLine();
 
-        Task task = findTask(taskId, tasksPending);
+        Task task = findTask(taskId, allTasks);
         if (task != null) {
-            tasksPending.remove(task);
+            allTasks.remove(task);
             task.setStatus("in progress");
             tasksInProgress.add(task);
             updateDatabase.updateInDatabase(taskId, task.getDescription(), task.getEndDate(), task.getPriority(), task.getUserId(), task.getStatus());
@@ -74,15 +75,15 @@ public class TaskManager {
     public void moveTaskToPending(TaskController taskController) {
         System.out.println("=== Tareas Pendientes ===");
         GetFromDatabase getFromDatabase = new GetFromDatabase();
-        tasksPending=getFromDatabase.getAllTasks();
+        allTasks=getFromDatabase.getAllTasks();
         System.out.print("Ingrese el ID de la tarea que desea mover a 'Pendiente': ");
         String taskId = scanner.nextLine();
 
-        Task task = findTask(taskId, tasksPending);
+        Task task = findTask(taskId, allTasks);
         if (task != null) {
-            tasksPending.remove(task);
+            allTasks.remove(task);
             task.setStatus("pending");
-            tasksInProgress.add(task);
+            tasksPending.add(task);
             updateDatabase.updateInDatabase(taskId, task.getDescription(), task.getEndDate(), task.getPriority(), task.getUserId(), task.getStatus());
             System.out.println("Tarea movida a 'En Proceso' exitosamente.");
         } else {
@@ -94,15 +95,16 @@ public class TaskManager {
     public void moveTaskToCompleted(TaskController taskController) {
         System.out.println("=== Tareas Pendientes ===");
         GetFromDatabase getFromDatabase = new GetFromDatabase();
-        tasksPending=getFromDatabase.getAllTasks();
+        allTasks=getFromDatabase.getAllTasks();
         System.out.print("Ingrese el ID de la tarea que desea mover a 'Completado': ");
         String taskId = scanner.nextLine();
 
-        Task task = findTask(taskId, tasksPending);
+        Task task = findTask(taskId, allTasks);
         if (task != null) {
-            tasksPending.remove(task);
+            System.out.printf("tarea que se va a borrar ",task);
+            allTasks.remove(task);
             task.setStatus("completed");
-            tasksInProgress.add(task);
+            tasksCompleted.add(task);
             updateDatabase.updateInDatabase(taskId, task.getDescription(), task.getEndDate(), task.getPriority(), task.getUserId(), task.getStatus());
             System.out.println("Tarea movida a 'En Proceso' exitosamente.");
         } else {
@@ -111,32 +113,30 @@ public class TaskManager {
     }
 
     public void deleteTask(TaskController taskController) {
+        System.out.println("=== Tareas ===");
+        GetFromDatabase getFromDatabase = new GetFromDatabase();
+        allTasks=getFromDatabase.getAllTasks();
         DeleteFromDatabase deleteFromDatabase = new DeleteFromDatabase();
-        System.out.println("=== Tareas Pendientes ===");
-        listTasks(tasksPending);
-        System.out.println("=== Tareas en Proceso ===");
-        listTasks(tasksInProgress);
-        System.out.println("=== Tareas Terminadas ===");
-        listTasks(tasksCompleted);
+
 
         System.out.print("Ingrese el ID de la tarea que desea eliminar: ");
         String taskId = scanner.nextLine();
 
-        Task task = findTask(taskId, tasksPending);
+        Task task = findTask(taskId, allTasks);
         if (task != null) {
-            tasksPending.remove(task);
+            allTasks.remove(task);
         } else {
             task = findTask(taskId, tasksInProgress);
             if (task != null) {
-                tasksInProgress.remove(task);
+            tasksInProgress.remove(task);
             } else {
-                task = findTask(taskId, tasksCompleted);
-                if (task != null) {
-                    tasksCompleted.remove(task);
-                } else {
-                    System.out.println("No se encontró ninguna tarea con ese ID.");
-                    return;
-                }
+            task = findTask(taskId, tasksCompleted);
+            if (task != null) {
+                tasksCompleted.remove(task);
+            } else {
+                System.out.println("No se encontró ninguna tarea con ese ID.");
+                return;
+            }
             }
         }
         deleteFromDatabase.deleteFromDatabase(taskId);
@@ -150,15 +150,6 @@ public class TaskManager {
             }
         }
         return null;
-    }
-
-    private void listTasks(List<Task> taskList) {
-        for (Task task : taskList) {
-            System.out.println(task);
-        }
-        if (taskList.isEmpty()) {
-            System.out.println("No hay tareas en esta lista.");
-        }
     }
 
     public List<Task> getTasksPending() {
